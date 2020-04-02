@@ -1,0 +1,254 @@
+<robot name="hand">
+
+*************HAND BASE***************
+  <link name="hand_base">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/hand_base.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.09 0.046 0.195" rpy = "0 1.57 3.14"/>
+      <material name="blue">
+        <color rgba=".1 .1 .4 1"/>
+      </material>
+    </visual>
+  </link>
+
+*************THUMB***************
+
+  <link name="thumb_base">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/thumb_base.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.0625 0.046 0.1606" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="thumba" type="revolute">
+    <axis xyz="0 -1 0"/>
+    <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
+    <parent link="hand_base"/>
+    <child link="thumb_base"/>
+    <origin xyz="0.0275 0 0.0344"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  <link name="thumb_middle">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/thumb_middle.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.043 0.046 0.1442" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="thumbb" type="fixed">
+    <parent link="thumb_base"/>
+    <child link="thumb_middle"/>
+    <origin xyz="0.0195 0 0.0164"/>
+  </joint>
+
+  <link name="thumb_tip">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/thumb_tip.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.037 0.046 0.1062" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="thumbc" type="revolute">
+    <axis xyz="0 -1 0"/>
+    <limit effort="1000.0" lower="-0.6" upper="-0.31" velocity="0.5"/>
+    <parent link="thumb_middle"/>
+    <child link="thumb_tip"/>
+    <origin xyz="0.006 0 0.038"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  *************FINGER1***************
+
+  <link name="finger1_middle">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger1_middle.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.056 0.1025" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger1a" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.15" upper="0.96" velocity="0.5"/>
+    <parent link="hand_base"/>
+    <child link="finger1_middle"/>
+    <origin xyz="0.045 -0.01 0.0925"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  <link name="finger1_tip">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger1_tip.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.0485 0.047" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger1b" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-2.0" upper="-0.89" velocity="0.5"/>
+    <parent link="finger1_middle"/>
+    <child link="finger1_tip"/>
+    <origin xyz="0 0.0075 0.0555"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  *************FINGER2***************
+
+  <link name="finger2_middle">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger2_middle.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.056 0.1025" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger2a" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.44" upper="0.67" velocity="0.5"/>
+    <parent link="hand_base"/>
+    <child link="finger2_middle"/>
+    <origin xyz="0.045 -0.01 0.0925"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  <link name="finger2_tip">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger2_tip.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.0315 0.052" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger2b" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.31" upper="0.8" velocity="0.5"/>
+    <parent link="finger2_middle"/>
+    <child link="finger2_tip"/>
+    <origin xyz="0 0.0245 0.0505"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  *************FINGER3***************
+
+  <link name="finger3_middle">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger3_middle.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.056 0.1025" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger3a" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.23" upper="0.88" velocity="0.5"/>
+    <parent link="hand_base"/>
+    <child link="finger3_middle"/>
+    <origin xyz="0.045 -0.01 0.0925"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  <link name="finger3_tip">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger3_tip.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.046 0.0525" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger3b" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.23" upper="0.88" velocity="0.5"/>
+    <parent link="finger3_middle"/>
+    <child link="finger3_tip"/>
+    <origin xyz="0 0.01 0.05"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  *************FINGER4***************
+
+  <link name="finger4_middle">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger4_middle.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.056 0.1025" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger4a" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.03" upper="1.08" velocity="0.5"/>
+    <parent link="hand_base"/>
+    <child link="finger4_middle"/>
+    <origin xyz="0.045 -0.01 0.0925"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+  <link name="finger4_tip">
+    <visual>
+      <geometry>
+        <mesh filename="package://hand_description/meshes/finger4_tip.STL" scale = ".001 .001 .001"/>
+      </geometry>
+      <origin xyz = "0.045 0.056 0.0625" rpy = "0.785 1.57 3.925"/>
+      <material name="grey">
+        <color rgba=".2 .2 .2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="finger4b" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="1000.0" lower="-0.09" upper="1.02" velocity="0.5"/>
+    <parent link="finger4_middle"/>
+    <child link="finger4_tip"/>
+    <origin xyz="0 0 0.04"/>
+    <joint_properties damping="1.0" friction="0.0"/>
+  </joint>
+
+</robot>
