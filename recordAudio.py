@@ -2,7 +2,7 @@
 import pyaudio
 import numpy as np
 import rospy
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 
 # sample = np.zeros([4, CHUNK])
 accel_data = Float64MultiArray()
@@ -25,22 +25,26 @@ def talker():
     stream = audio.open(format=FORMAT, channels=CHANNELS,
             rate=RATE, input=True,
             frames_per_buffer=CHUNK,input_device_index=7)
+    
     print("recording...")
-    frames = []
             
     while not rospy.is_shutdown():
         
         data = stream.read(CHUNK)
+        
         # read data from stream
         for i in range (CHUNK):
             for j in range(4):
                 
                 sample[j,i]=int.from_bytes([data[j*2+i*8],data[j*2+i*8+1]], "little", signed=True)
+                sample[j,i] = sample[j,i]/32768 
+                accel_data.data.insert(j, sample[j,i].astype('float64'))
                 
-        sample = sample/32768
+        # sample = sample/32768         
+        
         #print(sample)
-        for k in range(4):
-            accel_data.data.insert(k, sample[k,:]) 
+        # for k in range(4):
+        #     accel_data.data.insert(k, sample[k,:].astype('float64')) 
             
         pub.publish(accel_data)
         
@@ -48,6 +52,7 @@ def talker():
         sample = np.zeros([4, CHUNK])
         rate.sleep()
         
+    # stop Recording
     stream.stop_stream()
     stream.close()
     audio.terminate()
@@ -64,5 +69,4 @@ if __name__ == '__main__':
         pass
     rospy.spin()
     
-    # stop Recording
     
