@@ -27,12 +27,11 @@ def talker():
             frames_per_buffer=CHUNK,input_device_index=7)
     print("recording...")
     frames = []
-        
-    data = stream.read(CHUNK)
-    
+            
     while not rospy.is_shutdown():
         
-        
+        data = stream.read(CHUNK)
+        # read data from stream
         for i in range (CHUNK):
             for j in range(4):
                 
@@ -40,11 +39,13 @@ def talker():
                 
         sample = sample/32768
         #print(sample)
-        for i in range(4):
-            accel_data.data.insert(i, sample[:,i]) 
+        for k in range(4):
+            accel_data.data.insert(k, sample[k,:]) 
             
         pub.publish(accel_data)
+        
         accel_data.data[:] = []
+        sample = np.zeros([4, CHUNK])
         rate.sleep()
         
     stream.stop_stream()
@@ -54,8 +55,8 @@ def talker():
 if __name__ == '__main__':
     
     rospy.init_node('talker', anonymous=True)
-    pub = rospy.Publisher('accel_data', Float64MultiArray, queue_size =100)
-    rate = rospy.Rate(4000) #10hz
+    pub = rospy.Publisher('accel_data', Float64MultiArray, queue_size =1000)
+    rate = rospy.Rate(8000) #10hz
 
     try:
         talker()
