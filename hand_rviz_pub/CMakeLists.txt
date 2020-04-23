@@ -131,7 +131,6 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(talker2 src/talker2.cpp)
 add_executable(talker3 src/talker3.cpp)
 add_executable(talker5 src/talker5.cpp)
 
@@ -143,12 +142,10 @@ add_executable(talker5 src/talker5.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(talker2 hand_rviz_pub_generate_messages_cpp)
 add_dependencies(talker3 hand_rviz_pub_generate_messages_cpp)
 add_dependencies(talker5 hand_rviz_pub_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(talker2 ${catkin_LIBRARIES})
 target_link_libraries(talker3 ${catkin_LIBRARIES})
 target_link_libraries(talker5 ${catkin_LIBRARIES})
 
