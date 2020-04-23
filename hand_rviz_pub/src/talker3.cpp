@@ -2,6 +2,7 @@
 #include <sensor_msgs/JointState.h>
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
+#include <hand_rviz_pub/Raw.h>
 
 // advised finger rotation limits; in radians
 // finger1 limits
@@ -49,8 +50,10 @@ visualization_msgs::MarkerArray markerMsgs;
 ros::Publisher *pubPtr1;
 ros::Publisher *pubPtr2;
 
-// callback to manage anlgles and markers. WIP; need to choose suitable message type; for now using JointState
-void sensorsCallback(const sensor_msgs::JointState::ConstPtr& msg);
+// callback to manage markers. WIP need to manage angles
+void sensorsCallback(const hand_rviz_pub::Raw::ConstPtr& msg);
+// local function to set the marker color
+void setMarkerColor(int pos, int pressure);
 
 // subscriber version
 int main(int argc, char **argv){
@@ -682,56 +685,75 @@ int main(int argc, char **argv){
   return 0;
 }
 
-void sensorsCallback(const sensor_msgs::JointState::ConstPtr& msg){
+void sensorsCallback(const hand_rviz_pub::Raw::ConstPtr& msg){
 
-  double count1a = msg->position.at(0), 
-    count1b = msg->position.at(1), 
-    count2a = msg->position.at(2), 
-    count2b = msg->position.at(3), 
-    count3a = msg->position.at(4), 
-    count3b = msg->position.at(5), 
-    count4a = msg->position.at(6), 
-    count4b = msg->position.at(7), 
-    count0a = msg->position.at(8), 
-    count0c = msg->position.at(9);
+  try
+  {
+    int marker[27] = {msg->pressure.at(29), msg->pressure.at(28),msg->pressure.at(27),msg->pressure.at(17),msg->pressure.at(16),msg->pressure.at(15),
+                        msg->pressure.at(11),msg->pressure.at(10),msg->pressure.at(9),msg->pressure.at(5),msg->pressure.at(3),msg->pressure.at(4),
+                        msg->pressure.at(23),msg->pressure.at(22),msg->pressure.at(21),msg->pressure.at(26),msg->pressure.at(25),msg->pressure.at(24),
+                        msg->pressure.at(2),msg->pressure.at(1),msg->pressure.at(0),msg->pressure.at(8),msg->pressure.at(7),msg->pressure.at(6),
+                        msg->pressure.at(14),msg->pressure.at(13),msg->pressure.at(12)};
 
+    // adjust the angle of the fingers in the JointState message.
+    // order is {"finger1a", "finger1b", "finger2a", "finger2b", "finger3a", "finger3b", "finger4a", "finger4b", "thumba", "thumbc"}
+    // jointMsg.header.stamp = ros::Time();
+    // jointMsg.position = {count1a, count1b, count2a, count2b, count3a, count3b, count4a, count4b, count0a, count0c};
 
-  // adjust the angle of the fingers in the JointState message.
-  // order is {"finger1a", "finger1b", "finger2a", "finger2b", "finger3a", "finger3b", "finger4a", "finger4b", "thumba", "thumbc"}
-  jointMsg.header.stamp = ros::Time();
-  jointMsg.position = {count1a, count1b, count2a, count2b, count3a, count3b, count4a, count4b, count0a, count0c};
+    // adjust the values of the force sensors in the Markers. WIP; need to add color variation
 
-  // adjust the values of the force sensors in the Markers. WORK IN PROGRESS; need to add color variation
+    markerMsgs.markers[0].header.stamp = ros::Time(); setMarkerColor(0, marker[0]);
+    markerMsgs.markers[1].header.stamp = ros::Time(); setMarkerColor(1, marker[1]);
+    markerMsgs.markers[2].header.stamp = ros::Time(); setMarkerColor(2, marker[2]);
+    markerMsgs.markers[3].header.stamp = ros::Time(); setMarkerColor(3, marker[3]);
+    markerMsgs.markers[4].header.stamp = ros::Time(); setMarkerColor(4, marker[4]);
+    markerMsgs.markers[5].header.stamp = ros::Time(); setMarkerColor(5, marker[5]);
+    markerMsgs.markers[6].header.stamp = ros::Time(); setMarkerColor(6, marker[6]);
+    markerMsgs.markers[7].header.stamp = ros::Time(); setMarkerColor(7, marker[7]);
+    markerMsgs.markers[8].header.stamp = ros::Time(); setMarkerColor(8, marker[8]);
+    markerMsgs.markers[9].header.stamp = ros::Time(); setMarkerColor(9, marker[9]);
+    markerMsgs.markers[10].header.stamp = ros::Time(); setMarkerColor(10, marker[10]);
+    markerMsgs.markers[11].header.stamp = ros::Time(); setMarkerColor(11, marker[11]);
+    markerMsgs.markers[12].header.stamp = ros::Time(); setMarkerColor(12, marker[12]);
+    markerMsgs.markers[13].header.stamp = ros::Time(); setMarkerColor(13, marker[13]);
+    markerMsgs.markers[14].header.stamp = ros::Time(); setMarkerColor(14, marker[14]);
+    markerMsgs.markers[15].header.stamp = ros::Time(); setMarkerColor(15, marker[15]);
+    markerMsgs.markers[16].header.stamp = ros::Time(); setMarkerColor(16, marker[16]);
+    markerMsgs.markers[17].header.stamp = ros::Time(); setMarkerColor(17, marker[17]);
+    markerMsgs.markers[18].header.stamp = ros::Time(); setMarkerColor(18, marker[18]);
+    markerMsgs.markers[19].header.stamp = ros::Time(); setMarkerColor(19, marker[19]);
+    markerMsgs.markers[20].header.stamp = ros::Time(); setMarkerColor(20, marker[20]);
+    markerMsgs.markers[21].header.stamp = ros::Time(); setMarkerColor(21, marker[21]);
+    markerMsgs.markers[22].header.stamp = ros::Time(); setMarkerColor(22, marker[22]);
+    markerMsgs.markers[23].header.stamp = ros::Time(); setMarkerColor(23, marker[23]);
+    markerMsgs.markers[24].header.stamp = ros::Time(); setMarkerColor(24, marker[24]);
+    markerMsgs.markers[25].header.stamp = ros::Time(); setMarkerColor(25, marker[25]);
+    markerMsgs.markers[26].header.stamp = ros::Time(); setMarkerColor(26, marker[26]);
 
-  markerMsgs.markers[0].header.stamp = ros::Time();
-  markerMsgs.markers[1].header.stamp = ros::Time();    
-  markerMsgs.markers[2].header.stamp = ros::Time();   
-  markerMsgs.markers[3].header.stamp = ros::Time();
-  markerMsgs.markers[4].header.stamp = ros::Time();
-  markerMsgs.markers[5].header.stamp = ros::Time();
-  markerMsgs.markers[6].header.stamp = ros::Time();
-  markerMsgs.markers[7].header.stamp = ros::Time();
-  markerMsgs.markers[8].header.stamp = ros::Time();
-  markerMsgs.markers[9].header.stamp = ros::Time();
-  markerMsgs.markers[10].header.stamp = ros::Time();
-  markerMsgs.markers[11].header.stamp = ros::Time();
-  markerMsgs.markers[12].header.stamp = ros::Time();
-  markerMsgs.markers[13].header.stamp = ros::Time();
-  markerMsgs.markers[14].header.stamp = ros::Time();
-  markerMsgs.markers[15].header.stamp = ros::Time();
-  markerMsgs.markers[16].header.stamp = ros::Time();
-  markerMsgs.markers[17].header.stamp = ros::Time();
-  markerMsgs.markers[18].header.stamp = ros::Time();
-  markerMsgs.markers[19].header.stamp = ros::Time();
-  markerMsgs.markers[20].header.stamp = ros::Time();
-  markerMsgs.markers[21].header.stamp = ros::Time();
-  markerMsgs.markers[22].header.stamp = ros::Time();
-  markerMsgs.markers[23].header.stamp = ros::Time();
-  markerMsgs.markers[24].header.stamp = ros::Time();
-  markerMsgs.markers[25].header.stamp = ros::Time();
-  markerMsgs.markers[26].header.stamp = ros::Time();
+    // publish both messages
+    //(*pubPtr1).publish(jointMsg);
+    (*pubPtr2).publish(markerMsgs);
+    }
+  catch(const std::exception& e)
+  {
+    fprintf(stderr, "Wrong marker array!\n");
+  }
+}
 
-  // publish both messages
-  (*pubPtr1).publish(jointMsg);
-  (*pubPtr2).publish(markerMsgs);
+void setMarkerColor(int pos, int pressure){
+
+  // constrain the value of pressure
+  if(pressure < 0)
+    pressure = 0;
+  else if(pressure > 250)
+    pressure =250;
+
+  // normalize to doubles from 0.0 to 1.0
+  float pressureNorm = (float)pressure / 250.0;
+  
+  // set the color baed on pressure
+  markerMsgs.markers[pos].color.a = 1.0;
+  markerMsgs.markers[pos].color.g = 1.0 - pressureNorm;
+  markerMsgs.markers[pos].color.r = 0.0 + pressureNorm;
+  markerMsgs.markers[pos].color.b = 0.0;
 }
