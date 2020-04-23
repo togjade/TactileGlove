@@ -48,9 +48,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-# )
+add_message_files(
+  FILES
+  Raw.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -132,7 +133,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(talker2 src/talker2.cpp)
 add_executable(talker3 src/talker3.cpp)
-add_executable(talker4 src/talker4.cpp)
+add_executable(talker5 src/talker5.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -144,12 +145,12 @@ add_executable(talker4 src/talker4.cpp)
 ## same as for the library above
 add_dependencies(talker2 hand_rviz_pub_generate_messages_cpp)
 add_dependencies(talker3 hand_rviz_pub_generate_messages_cpp)
-add_dependencies(talker4 hand_rviz_pub_generate_messages_cpp)
+add_dependencies(talker5 hand_rviz_pub_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(talker2 ${catkin_LIBRARIES})
 target_link_libraries(talker3 ${catkin_LIBRARIES})
-target_link_libraries(talker4 ${catkin_LIBRARIES})
+target_link_libraries(talker5 ${catkin_LIBRARIES})
 
 #############
 ## Install ##
